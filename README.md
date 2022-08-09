@@ -23,19 +23,13 @@ You can test a pair of your clients for a 100 times, with one command, everythin
 In order to loop through the server, you will need to give the
 following arguments to "script.sh":
 
-arg 1 : path/to/server.jar
-
-arg 2 : path/to/first_team_client
-
-arg 3 : path/to/second_team_client
-
-arg 4 : path/to/map.yml
-
-arg 5 : path/to/map.json
-
-arg 6 : iteration count
-
-arg 7 : type string
+arg 1 : path/to/server.jar;
+arg 2 : path/to/first_team_client;
+arg 3 : path/to/second_team_client;
+arg 4 : path/to/map.yml;
+arg 5 : path/to/map.json;
+arg 6 : iteration count;
+arg 7 : type string;
 
 argument 6 determines how many times you want the server to run
 argument 7 determines the name of the directory structure under logs/saves (every iteration with the same name goes to the same folder)
