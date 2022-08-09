@@ -17,7 +17,6 @@ then
     echo "\targ 6 : iteration count"
     echo "\targ 7 : type string"
 
-
     exit 1
 fi
 
@@ -36,14 +35,11 @@ type_string=$7
 [ ! -f "$map_path" ] && echo "Error : map_path file : \"$map_path\" does not exist!, Aborting..." && exit 1
 
 
-# re='^[0-9]+$'
-# if ! [[ $iteration_count =~ $re ]] ; then
-#    echo "error: $iteration_count is Not a number" >&2; exit 1
-# fi
+
 
 case $iteration_count in
     ''|*[!0-9]*) echo "Error : \"$iteration_count\" is not a number!, Aborting..." ; exit 1 ;;
-    *) #echo good ;;
+    *) 
 esac
 
 
@@ -52,9 +48,12 @@ server_log_path=logs/server.log
 details_log_path=logs/details.log
 winner_log_path=logs/winner.log
 
+result_path=$saves/$type_string/result.result
+
 
 clean()
 {
+    [ -f $result_path ] && rm $result_path
     [ -f $server_log_path ] && rm $server_log_path
     [ -f $details_log_path ] && rm $details_log_path
     [ -f $winner_log_path ] && rm $winner_log_path
@@ -84,16 +83,28 @@ backup(){
 }
 
 
-
-
 [ ! -d $saves/$type_string ] && mkdir -p $saves/$type_string
-
 
 
 for i in `seq $iteration_count`; do echo "server run count : $i" ; clean;  run ; backup ; done
 
+
 clean
 
+echo "All $iteration_count server iterations are completed \n Creating the result file at : $result_path"
+
+[ ! -f $result_path ] && touch $result_path
 
 
-# for f in *.log; do cp -v -- "$f" "logs/$num/$1-$(date +%s)-$f"; done
+for f in $(find $saves/$type_string | grep winner.log); do echo "{ file : $f , content : {$(cat $f)} }" >> $result_path ;done
+
+
+var=$(cat $result_path | grep "\"winner\":0" | wc -l)
+var2=$(cat $result_path | grep "\"winner\":1" | wc -l)
+
+Payam="\nTotal games $(($var + $var2)) :\n\t Client 1 wins : $var \n\t Client 2 wins : $var2"
+
+echo $Payam >> $result_path
+
+exit 0;
+
