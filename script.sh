@@ -8,7 +8,7 @@
 
 if [ $# -ne 7 ]
 then 
-    echo "$0 : I need at least Six arguments"
+    echo "$0 : I need exactly Six arguments"
     echo "\targ 1 : server path "
     echo "\targ 2 : client 1 path"
     echo "\targ 2 : client 2 path"
