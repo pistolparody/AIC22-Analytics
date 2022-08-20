@@ -1,0 +1,8 @@
+echo number of subfolders in logs/saves is  $(find logs/saves/* -type d | wc -l)                                            
+echo "number of subfolders in logs/saves/debug*special is"  $(find logs/saves/debug*special* -type d | wc -l)                                            
+echo "number of subfolders in logs/saves/debug*robocop is"  $(find logs/saves/debug*robocop* -type d | wc -l)
+echo "\n\n"
+
+echo "logs/saves/debug_vs_special_map_1 :" $(cat logs/saves/debug_vs_special_map_1/result.result | grep -ie Client -ie Game)"\n"
+echo "\nlogs/saves/debug_vs_robocop_map_1 :" $(cat logs/saves/debug_vs_robocop_map_1/result.result | grep -ie Client -ie game) "\n"
+

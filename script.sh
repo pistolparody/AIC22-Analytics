@@ -82,29 +82,37 @@ backup(){
    cp $winner_log_path $saves/$type_string/$savesLength/winner.log
 }
 
+stuff(){
+
+    [ -f $result_path ] && rm $result_path
+    [ ! -f $result_path ] && touch $result_path
+
+    for f in $(find $saves/$type_string | grep winner.log); do echo "{ file : $f , content : {$(cat $f)} }" >> $result_path ;done
+
+    var=$(cat $result_path | grep "\"winner\":0" | wc -l)
+    var2=$(cat $result_path | grep "\"winner\":1" | wc -l)
+
+    Payam="\nTotal games $(($var + $var2)) :\n\t Client 1 wins : $var \n\t Client 2 wins : $var2"
+
+
+    echo "Creating temp result file at : $result_path"
+    echo $Payam >> $result_path
+}
 
 [ ! -d $saves/$type_string ] && mkdir -p $saves/$type_string
 
 
-for i in `seq $iteration_count`; do echo "server run count : $i" ; clean;  run ; backup ; done
+for i in `seq $iteration_count`; do echo "server run count : $i" ; clean; stuff;  run ; backup ; done
 
 
 clean
 
 echo "All $iteration_count server iterations are completed \n Creating the result file at : $result_path"
 
-[ ! -f $result_path ] && touch $result_path
+stuff
 
 
-for f in $(find $saves/$type_string | grep winner.log); do echo "{ file : $f , content : {$(cat $f)} }" >> $result_path ;done
 
-
-var=$(cat $result_path | grep "\"winner\":0" | wc -l)
-var2=$(cat $result_path | grep "\"winner\":1" | wc -l)
-
-Payam="\nTotal games $(($var + $var2)) :\n\t Client 1 wins : $var \n\t Client 2 wins : $var2"
-
-echo $Payam >> $result_path
 
 exit 0;
 

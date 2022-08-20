@@ -23,7 +23,7 @@ fi
 
 target=logs/saves/$2
 target_size=$(find $target -type d | wc -l)
-last_directory=$target/$(($target_size-2))
+last_directory=$target/$(($target_size-1))
 specified_directory=$target/$3
 
 
